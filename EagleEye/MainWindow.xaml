@@ -1,0 +1,321 @@
+﻿<Controls:MetroWindow x:Class="EagleEye.MainWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Enums="clr-namespace:EagleEye.Entities.Enums"
+        xmlns:CustomProperties="clr-namespace:EagleEye.CustomProperties"
+        xmlns:ValueConverters="clr-namespace:EagleEye.ValueConverters"
+        xmlns:local="clr-namespace:EagleEye"
+        mc:Ignorable="d"
+        Icon="Images\Icon.ico"
+        Title="EagleEye" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded" StateChanged="Window_StateChanged" Closing="Window_Closing" Closed="Window_Closed">
+
+    <Controls:MetroWindow.Resources>
+
+        <ValueConverters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+
+        <ObjectDataProvider x:Key="itemSourceFromActionTypesEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Enums:ActionTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+        <ItemsPanelTemplate x:Key="lbSnapShotsTemplate">
+            <!--<StackPanel IsItemsHost="True" Orientation="Vertical">-->
+            <WrapPanel Orientation="Vertical" IsItemsHost="True">
+                <WrapPanel.ContextMenu>
+                    <ContextMenu>
+                        <!--<MenuItem x:Name="miDeleteSnapshot" Header="Delete" Click="miDeleteSnapshot_Click"/>-->
+                    </ContextMenu>
+                </WrapPanel.ContextMenu>
+            </WrapPanel>
+        </ItemsPanelTemplate>
+
+        <Style x:Key="lbSnapShotsItemsStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <GroupBox MaxWidth="400" Margin="0,0,0,15" HorizontalAlignment="Stretch" Foreground="Black" FontSize="14" Header="{Binding DateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding DateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <WrapPanel Grid.Row="0" Grid.Column="0">
+                                    <Label>Percentage:</Label>
+                                    <Label Content="{Binding Percentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="{}{0}%"/>
+                                </WrapPanel>
+                                <Image Grid.Row="1" Grid.Column="0" Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button x:Name="btnDeleteSnapShot" Grid.Row="0" Grid.Column="1" Foreground="White" Style="{DynamicResource OrangeButton}" Content="Delete" Click="btnDeleteSnapShot_Click"/>
+                            </Grid>
+                        </GroupBox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True" >
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Black"/>
+            </Style.Resources>
+        </Style>
+
+        <ItemsPanelTemplate x:Key="lbActionsTemplate">
+            <!--<StackPanel IsItemsHost="True" Orientation="Vertical">-->
+            <WrapPanel Orientation="Vertical" IsItemsHost="True">
+                <WrapPanel.ContextMenu>
+                    <ContextMenu>
+                        <!--<MenuItem x:Name="miDeleteAction" Header="Delete" Click="miDeleteAction_Click"/>-->
+                    </ContextMenu>
+                </WrapPanel.ContextMenu>
+            </WrapPanel>
+        </ItemsPanelTemplate>
+
+        <Style x:Key="lbActionsItemsStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+
+                        <GroupBox MaxWidth="400" Margin="0,0,0,15" HorizontalAlignment="Stretch" Foreground="Black" FontSize="14" Header="Action">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <WrapPanel Grid.Row="0" Grid.Column="0">
+                                    <Label>Type:</Label>
+                                    <Label Content="{Binding ActionType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </WrapPanel>
+                                <WrapPanel Grid.Row="1" Grid.Column="0">
+                                    <Label>Value:</Label>
+                                    <Label Content="{Binding ActionValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </WrapPanel>
+                                <Button x:Name="btnDeleteAction" Grid.Row="0" Grid.Column="1" Foreground="White" Style="{DynamicResource OrangeButton}" Content="Delete" Click="btnDeleteAction_Click"/>
+
+                            </Grid>
+                        </GroupBox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True" >
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Black"/>
+            </Style.Resources>
+        </Style>
+
+
+
+        <Style x:Key="Basebutton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsPressed" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="Black" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsPressed" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Opacity" Value="0.9" />
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BlueButton" TargetType="{x:Type Button}" BasedOn="{StaticResource Basebutton}">
+            <Setter Property="Background" Value="#3498DB"/>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsPressed" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#3498DB" />
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OrangeButton" TargetType="{x:Type Button}" BasedOn="{StaticResource Basebutton}">
+            <Setter Property="Background" Value="#f0ad4e"/>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsPressed" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#f0ad4e" />
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button CustomProperties:ContextMenuLeftClickBehavior.IsLeftClickEnabled="true">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="settings" />
+                </StackPanel>
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <WrapPanel>
+                            <Label>Device:</Label>
+                            <ComboBox x:Name="cbDevices" SelectedItem="{Binding Configuration.Device}" ItemsSource="{Binding Devices}" ToolTip="{Binding Configuration.Device}" SelectionChanged="cbDevices_SelectionChanged" DropDownOpened="cbDevices_DropDownOpened"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label>Percentage Change Trigger:</Label>
+                            <TextBox Text="{Binding Configuration.ImageChangePercentageTriggerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label>Auto Calculate Pixel Change Tolerance:</Label>
+                            <CheckBox IsChecked="{Binding Configuration.AutoCalculatePixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label>Pixel Tolerance:</Label>
+                            <TextBox Text="{Binding Configuration.PixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Configuration.AutoCalculatePixelChangeTolerance, Converter={StaticResource InvertedBoolConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label>Wait Time Seconds:</Label>
+                            <TextBox Text="{Binding Configuration.WaitTimeSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                        </WrapPanel>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="550"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <WrapPanel Grid.Column="0">
+                            <Label>Current Change Percentage:</Label>
+                            <Label Content="{Binding ImageChangePercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="{}{0}%"/>
+                        </WrapPanel>
+                        <WrapPanel Grid.Column="1">
+                            <Label>Current Frame Rate:</Label>
+                            <Label Content="{Binding FrameRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </WrapPanel>
+                        <WrapPanel Grid.Column="2">
+                            <Label>Status:</Label>
+                            <Label Content="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Red"/>
+                        </WrapPanel>
+
+                    </Grid>
+                    <Canvas Grid.Row="1">
+                        <Grid>
+                            <InkCanvas Strokes="{Binding StrokeCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <InkCanvas.DefaultDrawingAttributes >
+                                    <DrawingAttributes Color = "Red" Width="6"/>
+                                </InkCanvas.DefaultDrawingAttributes>
+                                <Image Source="{Binding VideoImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </InkCanvas>
+                        </Grid>
+                    </Canvas>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnClear" Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="0"  Foreground="White" Style="{DynamicResource OrangeButton}" Content="Clear" Click="btnClear_Click"/>
+                        <Image Grid.Column="0" Grid.Row="1" Source="{Binding VideoSelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageDifference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Actions">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" HorizontalAlignment="Center" Width="400" Margin="0,50,0,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,10,0">Action Type</TextBlock>
+                            <ComboBox Grid.Row="0" Grid.Column="1" SelectedItem="{Binding Action.ActionType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource itemSourceFromActionTypesEnum}}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,10,0">Action Value</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Action.ActionValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus }"/>
+
+                            <Button x:Name="btnAddAction" Grid.Row="2" Grid.ColumnSpan="2" Foreground="White" Style="{DynamicResource BlueButton}" Content="Add Action" Click="btnAddAction_Click"/>
+                        </Grid>
+
+                        <ListBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"  ItemsPanel="{DynamicResource lbActionsTemplate}" ItemContainerStyle="{DynamicResource lbActionsItemsStyle}" ItemsSource="{Binding Actions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True"/>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Snapshots">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button x:Name="btnClearSnapShots" Grid.Row="0" Content="Clear SnapShots" Foreground="White" Style="{DynamicResource OrangeButton}" Click="btnClearSnapShots_Click"/>
+                        <ListBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"  ItemsPanel="{DynamicResource lbSnapShotsTemplate}" ItemContainerStyle="{DynamicResource lbSnapShotsItemsStyle}" ItemsSource="{Binding SnapShots, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True"/>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Controls:MetroWindow>
