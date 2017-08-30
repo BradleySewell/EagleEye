@@ -21,6 +21,17 @@ namespace EagleEye.Entities.Configuration
             }
         }
 
+        private bool mirrorImage;
+        public bool MirrorImage
+        {
+            get { return mirrorImage; }
+            set
+            {
+                mirrorImage = value;
+                OnPropertyChanged("MirrorImage");
+            }
+        }
+
         private double imageChangePercentageTriggerValue;
         public double ImageChangePercentageTriggerValue
         {

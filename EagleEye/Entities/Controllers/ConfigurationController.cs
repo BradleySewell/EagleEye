@@ -22,6 +22,7 @@ namespace EagleEye.Entities.Controllers
             AppDataContext.Configuration = new ConfigurationItem()
             {
                 Device = string.Empty,
+                MirrorImage = true,
                 ImageChangePercentageTriggerValue = 0.11,
                 AutoCalculatePixelChangeTolerance = true,
                 PixelChangeTolerance = 60,

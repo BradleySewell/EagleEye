@@ -192,20 +192,24 @@
                             <ComboBox x:Name="cbDevices" SelectedItem="{Binding Configuration.Device}" ItemsSource="{Binding Devices}" ToolTip="{Binding Configuration.Device}" SelectionChanged="cbDevices_SelectionChanged" DropDownOpened="cbDevices_DropDownOpened"/>
                         </WrapPanel>
                         <WrapPanel>
+                            <Label>Mirror Image:</Label>
+                            <CheckBox x:Name="cbMirrorImage" IsChecked="{Binding Configuration.MirrorImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="cbMirrorImage_Click"/>
+                        </WrapPanel>
+                        <WrapPanel>
                             <Label>Percentage Change Trigger:</Label>
-                            <TextBox Text="{Binding Configuration.ImageChangePercentageTriggerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                            <TextBox x:Name="tbImageChangePercentageTriggerValue" Text="{Binding Configuration.ImageChangePercentageTriggerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" LostFocus="tbImageChangePercentageTriggerValue_LostFocus"/>
                         </WrapPanel>
                         <WrapPanel>
                             <Label>Auto Calculate Pixel Change Tolerance:</Label>
-                            <CheckBox IsChecked="{Binding Configuration.AutoCalculatePixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox x:Name="cbAutoCalculatePixelChangeTolerance" IsChecked="{Binding Configuration.AutoCalculatePixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="cbAutoCalculatePixelChangeTolerance_Click"/>
                         </WrapPanel>
                         <WrapPanel>
                             <Label>Pixel Tolerance:</Label>
-                            <TextBox Text="{Binding Configuration.PixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Configuration.AutoCalculatePixelChangeTolerance, Converter={StaticResource InvertedBoolConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                            <TextBox x:Name="tbPixelChangeTolerance" Text="{Binding Configuration.PixelChangeTolerance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Configuration.AutoCalculatePixelChangeTolerance, Converter={StaticResource InvertedBoolConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" LostFocus="tbPixelChangeTolerance_LostFocus"/>
                         </WrapPanel>
                         <WrapPanel>
                             <Label>Wait Time Seconds:</Label>
-                            <TextBox Text="{Binding Configuration.WaitTimeSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                            <TextBox x:Name="tbWaitTimeSeconds" Text="{Binding Configuration.WaitTimeSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" LostFocus="tbWaitTimeSeconds_LostFocus"/>
                         </WrapPanel>
                     </ContextMenu>
                 </Button.ContextMenu>

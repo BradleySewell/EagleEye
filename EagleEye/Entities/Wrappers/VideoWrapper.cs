@@ -108,6 +108,10 @@ namespace EagleEye.Entities.Wrappers
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bitmap = eventArgs.Frame;
+
+            if (_appDataContext.Configuration.MirrorImage)
+                bitmap.RotateFlip(RotateFlipType.Rotate180FlipY);
+
             ProcessImage(bitmap);
             CalculateFrameRate();
         }

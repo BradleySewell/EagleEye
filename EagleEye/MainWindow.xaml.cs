@@ -82,6 +82,8 @@ namespace EagleEye
         }
 
 
+
+
         private void Startup()
         {
             using (new Splash(this))
@@ -111,7 +113,7 @@ namespace EagleEye
                 (AppDataContext.Controllers = (Controllers = new ControllerInitialiser(AppDataContext))).InitialiseControllers();
 
                 _videoHandler = new VideoWrapper(AppDataContext);
-                _videoHandler.TriggerEvent += AppDataContext_TriggerEvent;
+                _videoHandler.TriggerEvent += Video_TriggerEvent;
                 _videoHandler.GetDevices();
                 _videoHandler.Start();
 
@@ -120,6 +122,10 @@ namespace EagleEye
         }
 
 
+
+
+
+        //Settings
         bool deviceDropDownOpened = false;
         private void cbDevices_DropDownOpened(object sender, EventArgs e)
         {
@@ -135,8 +141,42 @@ namespace EagleEye
                 deviceDropDownOpened = false;
             }
         }
+        
+        
+        private void cbMirrorImage_Click(object sender, RoutedEventArgs e)
+        {
+            Controllers.ConfigurationController.SaveConfiguration();
+        }
 
-        private void AppDataContext_TriggerEvent(object sender, EventArgs e)
+        private void tbImageChangePercentageTriggerValue_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Controllers.ConfigurationController.SaveConfiguration();
+        }
+
+        private void cbAutoCalculatePixelChangeTolerance_Click(object sender, RoutedEventArgs e)
+        {
+            Controllers.ConfigurationController.SaveConfiguration();
+        }
+
+        private void tbPixelChangeTolerance_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Controllers.ConfigurationController.SaveConfiguration();
+        }
+
+        private void tbWaitTimeSeconds_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Controllers.ConfigurationController.SaveConfiguration();
+        }
+
+
+
+
+
+
+        
+
+        //Video
+        private void Video_TriggerEvent(object sender, EventArgs e)
         {
             var snapshot = (SnapShotEventArgs)e as SnapShotEventArgs;
 
@@ -188,7 +228,6 @@ namespace EagleEye
             }
         }
 
-
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             AppDataContext.StrokeCollection.Clear();
@@ -200,6 +239,10 @@ namespace EagleEye
 
 
 
+
+
+
+        //Snapshots
         private void btnClearSnapShots_Click(object sender, RoutedEventArgs e)
         {
             AppDataContext.Controllers.SnapShotController.DeleteAllSnapShots();
@@ -215,6 +258,10 @@ namespace EagleEye
 
 
 
+
+
+
+        //Actions
         private void btnAddAction_Click(object sender, RoutedEventArgs e)
         {
             AppDataContext.Actions.Add(AppDataContext.Action);
@@ -230,6 +277,5 @@ namespace EagleEye
             AppDataContext.Actions.Remove(dataContext);
             Controllers.ActionController.SaveConfiguration();
         }
-
     }
 }

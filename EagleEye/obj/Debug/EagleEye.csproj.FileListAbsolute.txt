@@ -25,4 +25,3 @@ C:\Users\b.glass-sewell\Documents\Visual Studio 2015\Projects\EagleEye\EagleEye\
 C:\Users\b.glass-sewell\Documents\Visual Studio 2015\Projects\EagleEye\EagleEye\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\b.glass-sewell\Documents\Visual Studio 2015\Projects\EagleEye\EagleEye\obj\Debug\Resources\Icons.baml
 C:\Users\b.glass-sewell\Documents\Visual Studio 2015\Projects\EagleEye\EagleEye\obj\Debug\Resources\IconsNonShared.baml
-C:\Users\b.glass-sewell\Documents\Visual Studio 2015\Projects\EagleEye\EagleEye\obj\Debug\EagleEye.csprojResolveAssemblyReference.cache
